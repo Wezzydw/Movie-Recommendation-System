@@ -38,6 +38,7 @@ public class FileReaderTester
         {
             System.out.println(t.getTitle());
         }
+        System.out.println("Movie count" + run.size());
 //        File ratings = new File("data/ratings.txt");   
 //        Set<Integer> uniqueIds = new HashSet<>();
 //        Stream<String> lines = Files.lines(ratings.toPath());
