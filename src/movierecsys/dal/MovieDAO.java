@@ -5,7 +5,9 @@
  */
 package movierecsys.dal;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -50,10 +52,21 @@ public class MovieDAO
      * @return The object representation of the movie added to the persistence
      * storage.
      */
-    private Movie createMovie(int releaseYear, String title)
+    public Movie createMovie(int releaseYear, String title) throws IOException
     {
-        //TODO Create movie.
-        return null;
+        BufferedWriter bw = null;
+        FileWriter fw = null;
+        List<Movie> movies = getAllMovies();
+        int id = movies.size() + 2;
+        Movie newMovie = new Movie(id, releaseYear, title);
+        movies.add(newMovie); 
+        
+        fw = new FileWriter(SOURCE, true);
+        bw = new BufferedWriter(fw);
+        bw.write(toString(newMovie));
+        bw.close();
+        fw.close();
+        return newMovie;
     }
 
     /**
@@ -87,6 +100,11 @@ public class MovieDAO
     {
         //TODO Get one Movie
         return null;
+    }
+    
+    public String toString(Movie movie)
+    {
+        return "" +movie.getId() + "," + movie.getYear() + "," + movie.getTitle();
     }
 
 }
