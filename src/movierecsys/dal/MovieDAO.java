@@ -15,6 +15,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.MalformedInputException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -123,11 +124,12 @@ public class MovieDAO
      */
     private void deleteMovie(Movie movie) throws IOException
     {
+        File tmpfile = new File("data/tmp_movie_titles.txt");
         BufferedWriter bw = null;
         FileWriter fw = null;
         List<Movie> movies = getAllMovies();
-        movies.remove(movie.getId());
-        fw = new FileWriter(MOVIE_SOURCE);
+        movies.remove(movie);
+        fw = new FileWriter(tmpfile);
         bw = new BufferedWriter(fw);
         
         for (Movie m : movies)
@@ -135,6 +137,8 @@ public class MovieDAO
             bw.write(m.getId() + "," + m.getYear() + "," + m.getTitle());
             bw.newLine();
         }
+        Files.copy(tmpfile.toPath(), new File(MOVIE_SOURCE).toPath(), StandardCopyOption.REPLACE_EXISTING);
+        Files.delete(tmpfile.toPath());
     }
 
     /**
@@ -164,9 +168,13 @@ public class MovieDAO
      * @param id ID of the movie.
      * @return A Movie object.
      */
-    private Movie getMovie(int id)
+    private Movie getMovie(int id) throws IOException
     {
-        //TODO Get one Movie
+        for (Movie movie : getAllMovies())
+        {
+            if (movie.getId() == id)
+                return movie;
+        }
         return null;
     }
 
