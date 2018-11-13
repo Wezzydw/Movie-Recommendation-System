@@ -23,7 +23,7 @@ public class MovieRecController implements Initializable
      * The TextField containing the URL of the targeted website.
      */
     @FXML
-    private TextField txtMovieSearcjh;
+    private TextField txtMovieSearch;
 
     /**
      * The TextField containing the query word.
