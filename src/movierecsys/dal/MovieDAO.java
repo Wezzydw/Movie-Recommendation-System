@@ -38,9 +38,8 @@ public class MovieDAO
      */
     public List<Movie> getAllMovies() throws IOException
     {
-        List<Movie> allMovies = new ArrayList<>();
-        String source = "data/movie_titles.txt";
-        File file = new File(source);
+        List<Movie> allMovies = new ArrayList();
+        File file = new File(MOVIE_SOURCE);
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) //Using a try with resources!
         {
