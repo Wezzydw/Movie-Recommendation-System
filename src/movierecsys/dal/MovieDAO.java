@@ -36,7 +36,7 @@ public class MovieDAO
      * Gets a list of all movies in the persistence storage.
      *
      * @return List of movies.
-     * @throws java.io.IOException 
+     * @throws java.io.IOException
      */
     public List<Movie> getAllMovies() throws IOException
     {
@@ -100,7 +100,9 @@ public class MovieDAO
         for (Movie m : movies)
         {
             if (m.getTitle().equals(title) && m.getYear() == releaseYear)
+            {
                 return null;
+            }
         }
         try (BufferedWriter bw = Files.newBufferedWriter(path, StandardOpenOption.SYNC, StandardOpenOption.APPEND, StandardOpenOption.WRITE))
         {
@@ -132,17 +134,23 @@ public class MovieDAO
     public void deleteMovie(Movie movie) throws IOException
     {
         File tmpfile = new File("data/tmp_movie_titles.txt");
-        BufferedWriter bw = null;
-        FileWriter fw = null;
         List<Movie> movies = getAllMovies();
-        movies.remove(movie);
-        fw = new FileWriter(tmpfile);
-        bw = new BufferedWriter(fw);
-        
-        for (Movie m : movies)
+
+        //movies.remove(getMovie(movie.getId()));
+        System.out.println(movie);
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(tmpfile)))
         {
-            bw.write(m.getId() + "," + m.getYear() + "," + m.getTitle());
-            bw.newLine();
+
+            for (Movie m : movies)
+            {
+                if (m.getId() != movie.getId())
+                {
+                    bw.write(m.getId() + "," + m.getYear() + "," + m.getTitle());
+                    bw.newLine();
+                }
+
+            }
         }
         Files.copy(tmpfile.toPath(), new File(MOVIE_SOURCE).toPath(), StandardCopyOption.REPLACE_EXISTING);
         Files.delete(tmpfile.toPath());
@@ -161,17 +169,20 @@ public class MovieDAO
         int id = movie.getId();
         int year = movie.getYear();
         String title = movie.getTitle();
-        
-        BufferedWriter bw = null;
-        FileWriter fw = null;
-        fw = new FileWriter(tmpfile);
-        bw = new BufferedWriter(fw);
-        getMovie(id).setYear(year);
-        getMovie(id).setTitle(title);
-        for(Movie m: getAllMovie)
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(tmpfile)))
         {
-            bw.write(m.getId() + "," + m.getYear() + "," + m.getTitle());
-            bw.newLine();
+            for (Movie m : getAllMovie)
+            {
+                if (m.getId() == id)
+                {
+                    bw.write(m.getId() + "," + year + "," + title);
+                    bw.newLine();
+                } else
+                {
+                    bw.write(m.getId() + "," + m.getYear() + "," + m.getTitle());
+                    bw.newLine();
+                }
+            }
         }
         Files.copy(tmpfile.toPath(), new File(MOVIE_SOURCE).toPath(), StandardCopyOption.REPLACE_EXISTING);
         Files.delete(tmpfile.toPath());
@@ -185,23 +196,45 @@ public class MovieDAO
      */
     public Movie getMovie(int id) throws IOException
     {
-        List<Movie> movies = getAllMovies();
-        int index = id;
-        
-        if (movies.get(index).getId() == id)
-                return movies.get(index);
-        
-        else if (movies.get(index).getId() < id)
-            for (int i = index; i < movies.size(); i++)
+
+        for (Movie m : getAllMovies())
+        {
+            if (m.getId() == id)
             {
-                if (movies.get(i).getId() == id)
-                    return movies.get(i);
+                return m;
             }
-        else if (movies.get(index).getId() > id)
-            for (int i = index; i >= 0; i--)
-                return movies.get(i);
-        
+        }
+//        List<Movie> movies = getAllMovies();
+//        int index = id;
+//
+//        if (movies.get(index).getId() == id)
+//        {
+//            return movies.get(index);
+//        } else if (movies.get(index).getId() < id)
+//        {
+//            for (int i = index; i < movies.size(); i++)
+//            {
+//                if (movies.get(i).getId() == id)
+//                {
+//                    return movies.get(i);
+//                }
+//            }
+//        } else if (movies.get(index).getId() > id)
+//        {
+//            for (int i = index; i >= 0; i--)
+//            {
+//                return movies.get(i);
+//            }
+//        }
+
         return null;
+    }
+
+    public void returnToBackupList() throws IOException
+    {
+        File tmpfile = new File("data/backup_movie_titles.txt");
+
+        Files.copy(tmpfile.toPath(), new File(MOVIE_SOURCE).toPath(), StandardCopyOption.REPLACE_EXISTING);
     }
 
 }

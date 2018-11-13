@@ -24,12 +24,16 @@ public class FileReaderTester
      */
     public static void main(String[] args) throws IOException
     {
+        
         MovieDAO movieDao = new MovieDAO();
-        Movie movie = movieDao.createMovie(2020, "Tonny og Spasserbussen"); //Only run this once, or you will get multiple entries!
+        movieDao.returnToBackupList();
+        Movie movie = movieDao.createMovie(2020, "Tonny og Spasserbussen 3"); //Only run this once, or you will get multiple entries!
         System.out.println(movie);
+        
         movieDao.createMovie(2008, "Dannys nye bil");
-        Movie mov = new Movie(177758, 1979,"Prophecy");
-        movieDao.deleteMovie(mov);
+        movieDao.deleteMovie(movieDao.getMovie(17753));
+        Movie n = new Movie(17752,2008,"Out of Order 2");
+        movieDao.updateMovie(n);
  
     }
 }
