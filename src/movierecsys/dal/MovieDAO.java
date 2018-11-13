@@ -149,17 +149,25 @@ public class MovieDAO
      */
     private void updateMovie(Movie movie) throws IOException
     {
+        File tmpfile = new File("data/tmp_movie_title.txt");
         List<Movie> getAllMovie = getAllMovies();
         int id = movie.getId();
         int year = movie.getYear();
         String title = movie.getTitle();
         
-        try (BufferedWriter bw = Files.newBufferedWriter(path, StandardOpenOption.SYNC, StandardOpenOption.APPEND, StandardOpenOption.WRITE))
+        BufferedWriter bw = null;
+        FileWriter fw = null;
+        fw = new FileWriter(tmpfile);
+        bw = new BufferedWriter(fw);
+        getMovie(id).setYear(year);
+        getMovie(id).setTitle(title);
+        for(Movie m: getAllMovie)
         {
-            id = getNextAvailableMovieID();
+            bw.write(m.getId() + "," + m.getYear() + "," + m.getTitle());
             bw.newLine();
-            bw.write(id + "," + releaseYear + "," + title);
         }
+        Files.copy(tmpfile.toPath(), new File(MOVIE_SOURCE).toPath(), StandardCopyOption.REPLACE_EXISTING);
+        Files.delete(tmpfile.toPath());
     }
 
     /**
