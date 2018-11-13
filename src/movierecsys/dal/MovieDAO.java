@@ -178,11 +178,22 @@ public class MovieDAO
      */
     private Movie getMovie(int id) throws IOException
     {
-        for (Movie movie : getAllMovies())
-        {
-            if (movie.getId() == id)
-                return movie;
-        }
+        List<Movie> movies = getAllMovies();
+        int index = id;
+        
+        if (movies.get(index).getId() == id)
+                return movies.get(index);
+        
+        else if (movies.get(index).getId() < id)
+            for (int i = index; i < movies.size(); i++)
+            {
+                if (movies.get(i).getId() == id)
+                    return movies.get(i);
+            }
+        else if (movies.get(index).getId() > id)
+            for (int i = index; i >= 0; i--)
+                return movies.get(i);
+        
         return null;
     }
 
