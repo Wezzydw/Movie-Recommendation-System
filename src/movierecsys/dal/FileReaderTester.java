@@ -27,5 +27,7 @@ public class FileReaderTester
         MovieDAO movieDao = new MovieDAO();
         Movie movie = movieDao.createMovie(2020, "Tonny og Spasserbussen"); //Only run this once, or you will get multiple entries!
         System.out.println(movie);
+        movieDao.createMovie(2008, "Dannys nye bil");
+ 
     }
 }
