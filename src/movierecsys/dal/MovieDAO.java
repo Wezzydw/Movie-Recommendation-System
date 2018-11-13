@@ -78,6 +78,7 @@ public class MovieDAO
         int id = Integer.parseInt(arrMovie[0]);
         int year = Integer.parseInt(arrMovie[1]);
         String title = arrMovie[2];
+        //Removes comma from title, because of more than 3 arguments
 
         Movie mov = new Movie(id, year, title);
         return mov;
