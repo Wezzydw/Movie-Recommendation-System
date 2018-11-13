@@ -119,12 +119,10 @@ public class MovieDAO
         List<Movie> movies = getAllMovies();
         movies.remove(movie.getId());
         fw = new FileWriter(MOVIE_SOURCE);
-        bw = new BufferedWriter(fw, StandardOpenOption.);
+        bw = new BufferedWriter(fw);
         
         for (Movie m : movies)
         {
-            
-            bw.
             bw.write(m.getId() + "," + m.getYear() + "," + m.getTitle());
             bw.newLine();
         }
