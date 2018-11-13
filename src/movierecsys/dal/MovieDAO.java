@@ -74,12 +74,16 @@ public class MovieDAO
     private Movie stringArrayToMovie(String line)
     {
         String[] arrMovie = line.split(",");
-
         int id = Integer.parseInt(arrMovie[0]);
         int year = Integer.parseInt(arrMovie[1]);
         String title = arrMovie[2];
-        //Removes comma from title, because of more than 3 arguments
-
+        
+        if (arrMovie.length > 3)
+        {
+            for (int i = 3; i < arrMovie.length; i++)
+            title += "," + arrMovie[i];
+        }
+        
         Movie mov = new Movie(id, year, title);
         return mov;
     }
