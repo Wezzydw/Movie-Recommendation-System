@@ -11,7 +11,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import movierecsys.be.Movie;
 
 /**
  *
@@ -30,7 +29,7 @@ public class MovieRecController implements Initializable
      * The TextField containing the query word.
      */
     @FXML
-    private ListView<Movie> lstMovies;
+    private ListView<?> lstMovies;
 
 
     @Override
