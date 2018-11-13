@@ -98,7 +98,7 @@ public class MovieDAO
         List<Movie> movies = getAllMovies();
         for (Movie m : movies)
         {
-            if (m.getTitle() == title && m.getYear() == releaseYear)
+            if (m.getTitle().equals(title) && m.getYear() == releaseYear)
                 return null;
         }
         try (BufferedWriter bw = Files.newBufferedWriter(path, StandardOpenOption.SYNC, StandardOpenOption.APPEND, StandardOpenOption.WRITE))
@@ -128,7 +128,7 @@ public class MovieDAO
      *
      * @param movie The movie to delete.
      */
-    private void deleteMovie(Movie movie) throws IOException
+    public void deleteMovie(Movie movie) throws IOException
     {
         File tmpfile = new File("data/tmp_movie_titles.txt");
         BufferedWriter bw = null;
@@ -153,7 +153,7 @@ public class MovieDAO
      *
      * @param movie The updated movie.
      */
-    private void updateMovie(Movie movie) throws IOException
+    public void updateMovie(Movie movie) throws IOException
     {
         File tmpfile = new File("data/tmp_movie_title.txt");
         List<Movie> getAllMovie = getAllMovies();
@@ -182,7 +182,7 @@ public class MovieDAO
      * @param id ID of the movie.
      * @return A Movie object.
      */
-    private Movie getMovie(int id) throws IOException
+    public Movie getMovie(int id) throws IOException
     {
         List<Movie> movies = getAllMovies();
         int index = id;
