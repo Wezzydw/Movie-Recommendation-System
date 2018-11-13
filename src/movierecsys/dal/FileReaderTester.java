@@ -28,6 +28,8 @@ public class FileReaderTester
         Movie movie = movieDao.createMovie(2020, "Tonny og Spasserbussen"); //Only run this once, or you will get multiple entries!
         System.out.println(movie);
         movieDao.createMovie(2008, "Dannys nye bil");
+        Movie mov = new Movie(177758, 1979,"Prophecy");
+        movieDao.deleteMovie(mov);
  
     }
 }
