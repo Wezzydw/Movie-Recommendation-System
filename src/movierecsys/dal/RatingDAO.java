@@ -175,7 +175,7 @@ public class RatingDAO
                         low = pos + RECORD_SIZE;
                     } else //Last option, we found the right row:
                     {
-                        raf.write(rating.getRating()); //Remember the to reads at line 60,61. They positioned the filepointer just at the ratings part of the current record.
+                        raf.writeInt(rating.getRating()); //(changed from write to writeInt beacause write gave error, thank you Peter)Remember the to reads at line 60,61. They positioned the filepointer just at the ratings part of the current record.
                         return; //We return from the method. We are done here. The try with resources will close the connection to the file.
                     }
                 }
@@ -263,7 +263,6 @@ public class RatingDAO
                     int movId = raf.readInt();
                     int userId = raf.readInt();
                     int rate = raf.readInt();
-                    //System.out.println("movid : " + movId + " userId" + userId + " rate: " + rate);
                     if (user.getId() == userId)
                     {
                         Rating rating = new Rating(movId, userId, rate);
@@ -295,7 +294,6 @@ public class RatingDAO
     public void makeSmallFile() throws IOException
     {
         List<Rating> allRatings = getAllRatings();
-        //List<Rating> smallRating = new ArrayList();
         try (RandomAccessFile raf = new RandomAccessFile("data/user_ratings_small", "rw"))
         {
             for (int i = 0; i < 10000; i++)

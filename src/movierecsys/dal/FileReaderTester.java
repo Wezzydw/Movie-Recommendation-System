@@ -55,16 +55,18 @@ public class FileReaderTester
         Rating newRating3 = new Rating(17104, 6666666, 3);
         Rating newRating4 = new Rating(17104, 6666666, 5);
         Rating newRating5 = new Rating(8, 922922, 5);
+        Rating newRating7 = new Rating(8, 922922, -3);
 
         ratingDao.createRating(newRating1);
         ratingDao.createRating(newRating2);
         ratingDao.createRating(newRating3);
+        ratingDao.createRating(newRating5);
         //ratingDao.getAllRatings();
         for (Rating r : ratingDao.getAllRatings())
         {
             System.out.println("Movie: " + r.getMovie() + " User: " + r.getUser() + " Rating: " + r.getRating());
         }
-        ratingDao.updateRating(newRating5);
+        ratingDao.updateRating(newRating7);
         User test1 = new User(2535052, "Test 1");
         User test2 = new User(6666666, "Test 2");
 ////
