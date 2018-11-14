@@ -170,6 +170,7 @@ public class RatingDAO
             long high = ((totalRatings - 1) / RECORD_SIZE) * RECORD_SIZE;
             while (high >= low) //Binary search of movie ID
             {
+                
                 long pos = (((high + low) / 2) / RECORD_SIZE) * RECORD_SIZE;
                 raf.seek(pos);
                 int movId = raf.readInt();
