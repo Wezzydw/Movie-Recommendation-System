@@ -6,6 +6,7 @@
 package movierecsys.dal;
 
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.List;
 import movierecsys.be.Movie;
 
@@ -13,8 +14,7 @@ import movierecsys.be.Movie;
  *
  * @author pgn
  */
-public class FileReaderTester
-{
+public class FileReaderTester {
 
     /**
      * Example method. This is the code I used to create the users.txt files.
@@ -22,18 +22,32 @@ public class FileReaderTester
      * @param args
      * @throws IOException
      */
-    public static void main(String[] args) throws IOException
-    {
+    public static void main(String[] args) throws IOException {
+       
+        try (RandomAccessFile raf = new RandomAccessFile("data/user_ratingstestfile", "rw")) {
+            for (int i = 0; i < 11; i++) {
+                System.out.println(i);
+                //i++;
+                raf.writeUTF("" + i);
+            }
+            raf.seek(0);
+            raf.writeUTF("" +3243);
+            for (int j = 0; j < raf.length()/4; j++)
+            {
+                System.out.println(raf.readLine());
+            }
+
+        }
         
-        MovieDAO movieDao = new MovieDAO();
-        movieDao.returnToBackupList();
-        Movie movie = movieDao.createMovie(2020, "Tonny og Spasserbussen 3, nu med folk"); //Only run this once, or you will get multiple entries!
-        System.out.println(movie);
-        
-        movieDao.createMovie(2008, "Dannys nye bil");
-        movieDao.deleteMovie(movieDao.getMovie(17753));
-        Movie n = new Movie(17752,2008,"Out of Order 2");
-        movieDao.updateMovie(n);
- 
+//        MovieDAO movieDao = new MovieDAO();
+//        movieDao.returnToBackupList();
+//        Movie movie = movieDao.createMovie(2020, "Tonny og Spasserbussen 3, nu med folk"); //Only run this once, or you will get multiple entries!
+//        System.out.println(movie);
+//        
+//        movieDao.createMovie(2008, "Dannys nye bil");
+//        movieDao.deleteMovie(movieDao.getMovie(17753));
+//        Movie n = new Movie(17752,2008,"Out of Order 2");
+//        movieDao.updateMovie(n);
+
     }
 }
