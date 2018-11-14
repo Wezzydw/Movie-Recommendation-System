@@ -68,20 +68,21 @@ public class FileReaderTester
         User test1 = new User(2535052, "Test 1");
         User test2 = new User(6666666, "Test 2");
 ////
-        for (Rating r : ratingDao.getRatings(test1))
-        {
-            System.out.println("Movie: " + r.getMovie() + " User: " + r.getUser() + " Rating: " + r.getRating());
-        }
-        for (Rating r : ratingDao.getRatings(test2))
-        {
-            System.out.println("Movie: " + r.getMovie() + " User: " + r.getUser() + " Rating: " + r.getRating());
-        }
+//        for (Rating r : ratingDao.getRatings(test1))
+//        {
+//            System.out.println("Movie: " + r.getMovie() + " User: " + r.getUser() + " Rating: " + r.getRating());
+//        }
+//        for (Rating r : ratingDao.getRatings(test2))
+//        {
+//            System.out.println("Movie: " + r.getMovie() + " User: " + r.getUser() + " Rating: " + r.getRating());
+//        }
         ratingDao.deleteRating(newRating1);
-
-        for (Rating r : ratingDao.getRatings(test2))
-        {
-            System.out.println("Movie: " + r.getMovie() + " User: " + r.getUser() + " Rating: " + r.getRating());
-        }
+        
+//
+//        for (Rating r : ratingDao.getRatings(test2))
+//        {
+//            System.out.println("Movie: " + r.getMovie() + " User: " + r.getUser() + " Rating: " + r.getRating());
+//        }
                 for (Rating r : ratingDao.getAllRatings())
         {
             System.out.println("Movie: " + r.getMovie() + " User: " + r.getUser() + " Rating: " + r.getRating());

@@ -58,7 +58,6 @@ public class RatingDAO
             int size = ratings.size();
             for (int i = 0; i < ratings.size(); i++)
             {
-                System.out.println("I : " + i + " Size " + ratings.size());
 
                 if (id == ratings.get(i).getMovie() && user == ratings.get(i).getUser())
                 {
@@ -74,15 +73,12 @@ public class RatingDAO
 
                     } else if (i != 0 && ratings.get(i - 1).getMovie() < ratings.get(i).getMovie() && hasCreatedRating == false && ratings.get(i - 1).getMovie() == id)
                     {
-                        System.out.println(hasCreatedRating);
-                        System.out.println("ID: " + ratings.get(i).getMovie() + "user " + ratings.get(i).getUser() + "test2");
                         ratings.add(i, rating);
                         hasCreatedRating = true;
 
                     }
                     if (i == (size - 1) && hasCreatedRating == false)
                     {
-                        System.out.println("test3");
                         ratings.add(i, rating);
                         hasCreatedRating = true;
 
@@ -197,6 +193,27 @@ public class RatingDAO
     public void deleteRating(Rating rating) throws IOException
     {
         
+        try (RandomAccessFile raf = new RandomAccessFile(RATING_SOURCE, "rw"))
+        {
+
+            List<Rating> ratings = getAllRatings();
+            raf.setLength(0);
+            for(Rating r : ratings)
+            {
+                if(!(r.getMovie() == rating.getMovie() && r.getUser() == rating.getUser()))
+                {
+  
+                raf.writeInt(r.getMovie());
+                raf.writeInt(r.getUser());
+                raf.writeInt(r.getRating());
+
+                    
+                
+                }
+
+            }
+
+        }
     }
 
     /**
