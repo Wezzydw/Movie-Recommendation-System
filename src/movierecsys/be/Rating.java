@@ -77,5 +77,10 @@ public class Rating
     {
         return rating;
     }
+    
+    public int getDeletedRating()
+    {
+        return -1;
+    }
 
 }
