@@ -196,50 +196,7 @@ public class RatingDAO
      */
     public void deleteRating(Rating rating) throws IOException
     {
-        try (RandomAccessFile raf = new RandomAccessFile(RATING_SOURCE, "rw"))
-        {
-            long totalRatings = raf.length();
-            long low = 0;
-            long high = ((totalRatings - 1) / RECORD_SIZE) * RECORD_SIZE;
-            while (high >= low) //Binary search of movie ID
-            {
-
-                long pos = (((high + low) / 2) / RECORD_SIZE) * RECORD_SIZE;
-                raf.seek(pos);
-                int movId = raf.readInt();
-                int userId = raf.readInt();
-
-                if (rating.getMovie() < movId) //We did not find the movie.
-                {
-                    high = pos - RECORD_SIZE; //We half our problem size to the upper half.
-                } else if (rating.getMovie() > movId) //We did not find the movie.
-                {
-                    low = pos + RECORD_SIZE; //We half our problem size (Just the lower half)
-                } else //We found a movie match, not to search for the user:
-                {
-                    if (rating.getUser() < userId) //Again we half our problem size
-                    {
-                        high = pos - RECORD_SIZE;
-                    } else if (rating.getUser() > userId) //Another half sized problem
-                    {
-                        low = pos + RECORD_SIZE;
-                    } else //Last option, we found the right row:
-                    {
-                        
-                        //Skal fixes til at fjerne delen fra selve filen, så den er gone for good. CreateRating er ikke bygget til at håndtere det
-                        raf.seek(raf.getFilePointer() - 2);
-                        raf.write(rating.getDeletedRating());
-                        raf.write(rating.getDeletedRating());
-                        raf.write(rating.getDeletedRating()); //Remember the to reads at line 60,61. They positioned the filepointer just at the ratings part of the current record.
-                        return; //We return from the method. We are done here. The try with resources will close the connection to the file.
-                    }
-                }
-            }
-        } catch (IOException e)
-        {
-            throw new IllegalArgumentException("Rating not found in file, can't delete!"); //If we reach this point we have been searching for a non-present rating.
-        }
-
+        
     }
 
     /**
