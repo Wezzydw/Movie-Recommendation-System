@@ -7,6 +7,7 @@ package movierecsys.dal;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
@@ -26,7 +27,8 @@ import movierecsys.be.User;
  *
  * @author pgn
  */
-public class RatingDAO {
+public class RatingDAO
+{
 
     private static final String RATING_SOURCE = "data/user_ratings";
 
@@ -37,64 +39,74 @@ public class RatingDAO {
      *
      * @param rating the rating to persist.
      */
-    public void createRating(Rating rating) throws IOException {
-
+    public void createRating(Rating rating) throws IOException
+    {
+        //Blev nødt til at skrive den korte, men tunge måde at gøre denne på.
+        //Der er ikke en måde at lave nyt data i midten af den hele, uden at skulle shifte det hele
+        //Og så bliver det bedre at bruge getAllRatings sort end at lave en ny
         List<Rating> ratings = getAllRatings();
         int id = rating.getMovie();
         int user = rating.getUser();
         int rt = rating.getRating();
-        int low = 0;
-        int high = ratings.size() - 1;
         MovieDAO movie = new MovieDAO();
-
-        if (movie.getMovie(id) != null) {
-
-            try (RandomAccessFile raf = new RandomAccessFile(RATING_SOURCE, "rw")) {
-                int pos = (high + low) / 2;
-                int posPrev = pos - RECORD_SIZE;
-                int posNext = pos + RECORD_SIZE;
-                {
-                    while (true) {
-                        raf.seek(posPrev);
-                        int prevId = raf.readInt();
-                        int prevUser = raf.readInt();
-
-                        raf.seek(pos);
-                        int curId = raf.readInt();
-                        int curUser = raf.readInt();
-
-                        raf.seek(posNext);
-                        int nextId = raf.readInt();
-                        int nextUser = raf.readInt();
-
-                        if (curId == id && curUser == user) {
-                            raf.seek(pos);
-                            raf.writeInt(id);
-                            raf.writeInt(user);
-                            raf.writeInt(rt);
-                            raf.
-                            return;
-                           
-                        }
-
-                        if (id == curId && user > prevUser && user < curUser) {
-                             //raf.make a new line and print info in that line
-                            return;
-                        }
-                        
-                        if (id == curId && user > curUser && user < nextUser) {
-                            //raf.make a new line and print info in that line
-                            return;
-                            
-                        } else if (id < prevId || user > prevUser) {
-                            pos = (pos + low) / 2;
-                        } else if (id > nextId || user > nextUser) {
-                            pos = (pos + high) / 2;
-                        }
-                    }
-                }
+        try (RandomAccessFile raf = new RandomAccessFile(RATING_SOURCE, "rw"))
+        {
+            if (movie.getMovie(id) != null)
+            {
+                raf.seek(raf.length());
+                raf.write(id);
+                raf.write(user);
+                raf.write(rt);
             }
         }
+//        if (movie.getMovie(id) != null) {
+//
+//            try (RandomAccessFile raf = new RandomAccessFile(RATING_SOURCE, "rw")) {
+//                int pos = (high + low) / 2;
+//                int posPrev = pos - RECORD_SIZE;
+//                int posNext = pos + RECORD_SIZE;
+//                {
+//                    while (true) {
+//                        raf.seek(posPrev);
+//                        int prevId = raf.readInt();
+//                        int prevUser = raf.readInt();
+//
+//                        raf.seek(pos);
+//                        int curId = raf.readInt();
+//                        int curUser = raf.readInt();
+//
+//                        raf.seek(posNext);
+//                        int nextId = raf.readInt();
+//                        int nextUser = raf.readInt();
+//
+//                        if (curId == id && curUser == user) {
+//                            raf.seek(pos);
+//                            raf.writeInt(id);
+//                            raf.writeInt(user);
+//                            raf.writeInt(rt);
+//                            raf.
+//                            return;
+//                           
+//                        }
+//
+//                        if (id == curId && user > prevUser && user < curUser) {
+//                             //raf.make a new line and print info in that line
+//                            return;
+//                        }
+//                        
+//                        if (id == curId && user > curUser && user < nextUser) {
+//                            //raf.make a new line and print info in that line
+//                            return;
+//                            
+//                        } else if (id < prevId || user > prevUser) {
+//                            pos = (pos + low) / 2;
+//                        } else if (id > nextId || user > nextUser) {
+//                            pos = (pos + high) / 2;
+//                        }
+//                    }
+//                }
+//            }
+//        }
 
     }
 
@@ -105,8 +117,10 @@ public class RatingDAO {
      * @param rating The updated rating to persist.
      * @throws java.io.IOException
      */
-    public void updateRating(Rating rating) throws IOException {
-        try (RandomAccessFile raf = new RandomAccessFile(RATING_SOURCE, "rw")) {
+    public void updateRating(Rating rating) throws IOException
+    {
+        try (RandomAccessFile raf = new RandomAccessFile(RATING_SOURCE, "rw"))
+        {
             long totalRatings = raf.length();
             long low = 0;
             long high = ((totalRatings - 1) / RECORD_SIZE) * RECORD_SIZE;
@@ -144,11 +158,46 @@ public class RatingDAO {
 
     /**
      * Removes the given rating.
-     *
+     * Copy of updateRating, da den eneste forskel er hvad vi skriver til filen i sidste ende
      * @param rating
      */
-    public void deleteRating(Rating rating) {
-        //TODO Delete rating
+    public void deleteRating(Rating rating) throws IOException
+    {
+        try (RandomAccessFile raf = new RandomAccessFile(RATING_SOURCE, "rw"))
+        {
+            long totalRatings = raf.length();
+            long low = 0;
+            long high = ((totalRatings - 1) / RECORD_SIZE) * RECORD_SIZE;
+            while (high >= low) //Binary search of movie ID
+            {
+                long pos = (((high + low) / 2) / RECORD_SIZE) * RECORD_SIZE;
+                raf.seek(pos);
+                int movId = raf.readInt();
+                int userId = raf.readInt();
+
+                if (rating.getMovie() < movId) //We did not find the movie.
+                {
+                    high = pos - RECORD_SIZE; //We half our problem size to the upper half.
+                } else if (rating.getMovie() > movId) //We did not find the movie.
+                {
+                    low = pos + RECORD_SIZE; //We half our problem size (Just the lower half)
+                } else //We found a movie match, not to search for the user:
+                {
+                    if (rating.getUser() < userId) //Again we half our problem size
+                    {
+                        high = pos - RECORD_SIZE;
+                    } else if (rating.getUser() > userId) //Another half sized problem
+                    {
+                        low = pos + RECORD_SIZE;
+                    } else //Last option, we found the right row:
+                    {
+                        raf.write(rating.getDeletedRating()); //Remember the to reads at line 60,61. They positioned the filepointer just at the ratings part of the current record.
+                        return; //We return from the method. We are done here. The try with resources will close the connection to the file.
+                    }
+                }
+            }
+        }
+        throw new IllegalArgumentException("Rating not found in file, can't update!"); //If we reach this point we have been searching for a non-present rating.
     }
 
     /**
@@ -156,10 +205,12 @@ public class RatingDAO {
      *
      * @return List of all ratings.
      */
-    public List<Rating> getAllRatings() throws IOException {
+    public List<Rating> getAllRatings() throws IOException
+    {
         List<Rating> allRatings = new ArrayList<>();
         byte[] all = Files.readAllBytes(new File(RATING_SOURCE).toPath()); //I get all records as binary data!
-        for (int i = 0; i < all.length; i += RECORD_SIZE) {
+        for (int i = 0; i < all.length; i += RECORD_SIZE)
+        {
             int movieId = ByteBuffer.wrap(all, i, Integer.BYTES).order(ByteOrder.BIG_ENDIAN).getInt();
             int userId = ByteBuffer.wrap(all, i + Integer.BYTES, Integer.BYTES).order(ByteOrder.BIG_ENDIAN).getInt();
             int rating = ByteBuffer.wrap(all, i + Integer.BYTES * 2, Integer.BYTES).order(ByteOrder.BIG_ENDIAN).getInt();
@@ -167,7 +218,8 @@ public class RatingDAO {
             allRatings.add(r);
         }
         Collections.sort(allRatings, (Rating o1, Rating o2)
-                -> {
+                ->
+        {
             int movieCompare = Integer.compare(o1.getMovie(), o2.getMovie());
             return movieCompare == 0 ? Integer.compare(o1.getUser(), o2.getUser()) : movieCompare;
         });
@@ -180,12 +232,14 @@ public class RatingDAO {
      * @param user The user
      * @return The list of ratings.
      */
-    public List<Rating> getRatings(User user) {
+    public List<Rating> getRatings(User user)
+    {
         //TODO Get user ratings.
         return null;
     }
 
-    private Rating getRatingFromLine(String line) throws NumberFormatException {
+    private Rating getRatingFromLine(String line) throws NumberFormatException
+    {
         String[] cols = line.split(",");
         int movId = Integer.parseInt(cols[0]);
         int userId = Integer.parseInt(cols[1]);
