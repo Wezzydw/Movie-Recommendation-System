@@ -91,11 +91,22 @@ public class FileReaderTester
 //        }
 
         UserDAO userDAO = new UserDAO();
-        for (User m : userDAO.getAllUsers())
-        {
-            System.out.println("User: " + m.getId() + m.getName());
-        }
+//for (User m : userDAO.getAllUsers())
+//        {
+//            System.out.println("User: " + u.getId() + u.getName());
+//        }
         
+//        userDAO.getUser(2905);
+//        System.out.println("User: " +userDAO.getUser(2905).getName());
+
+        User t = new User(2649286, "Claus Hansen");
+        userDAO.updateUser(t);
         
     }
 }
+
+      
+        
+     
+
+  
