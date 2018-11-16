@@ -53,7 +53,6 @@ public class UserDAO
                 }
             }
         }
-
         return allUsers;
     }
 

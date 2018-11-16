@@ -65,6 +65,7 @@ public class RatingDAO
                 }
                 if (hasDuplicate == false)
                 {
+                    
                     //Hvis det nye id og listens er ens, og nye userid er mindre en listens, tilføj til listen
                     if (id == ratings.get(i).getMovie() && user < ratings.get(i).getUser() && hasCreatedRating == false)
                     {
