@@ -118,19 +118,19 @@ public class UserDAO
         File tmpfile = new File("data/temp_users.txt");
         List<User> getAllUsers = getAllUsers();
         int id = user.getId();
-        String title = movie.getTitle();
+        String name = user.getName();
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(tmpfile)))
         {
             for (User m : getAllUsers)
             {
                 if (m.getId() == id)
                 {
-                    bw.write(m.getId() + "," + year + "," + title);
+                    bw.write(m.getId() + "," + name);
                     bw.newLine();
                 } else
                 {
-                    bw.write(m.getId() + "," + m.getYear() + "," + m.getTitle());
-                    bw.newLine(); //Hej
+                    bw.write(m.getId() + "," + m.getName());
+                    bw.newLine();
                 }
             }
         }
