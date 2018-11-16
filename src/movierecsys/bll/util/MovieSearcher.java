@@ -6,6 +6,7 @@
 package movierecsys.bll.util;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import movierecsys.be.Movie;
 import movierecsys.dal.MovieDAO;
@@ -16,11 +17,22 @@ import movierecsys.dal.MovieDAO;
  */
 public class MovieSearcher
 {
+
     public List<Movie> search(List<Movie> searchBase, String query) throws IOException
     {
         MovieDAO md = new MovieDAO();
         List<Movie> movies = md.getAllMovies();
-        return null;
+        
+        if (!query.isEmpty())
+        {
+            for (Movie m : movies)
+            {
+                if (m.getTitle().contains(query))
+                    searchBase.add(m);
+            }
+            return searchBase;
+        }
+        return movies;
     }
-    
+
 }
