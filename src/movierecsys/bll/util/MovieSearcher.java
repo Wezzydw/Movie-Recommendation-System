@@ -28,7 +28,7 @@ public class MovieSearcher
         {
             for (Movie m : movies)
             {
-                if (m.getTitle().contains(query))
+                if (m.getTitle().toLowerCase().contains(query.toLowerCase()))
                     empty.add(m);
             }
             return empty;

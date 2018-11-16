@@ -27,6 +27,7 @@ import movierecsys.bll.util.MovieSearcher;
  */
 public class MovieRecController implements Initializable
 {
+
     MovieSearcher ms;
     List<Movie> searchBase;
     List<Movie> empty;
@@ -39,14 +40,12 @@ public class MovieRecController implements Initializable
     @FXML
     private TextField txtMovieSearch;
 
-
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-       empty = new ArrayList();
-       ms = new MovieSearcher();
-       searchBase = new ArrayList();
-        System.out.println("Tester");
+        empty = new ArrayList();
+        ms = new MovieSearcher();
+        searchBase = new ArrayList();
         try
         {
             searchBase = ms.search(empty, "");
@@ -64,15 +63,12 @@ public class MovieRecController implements Initializable
         try
         {
             lstMovies.getItems().setAll(ms.search(empty, s));
-            
+
         } catch (IOException ex)
         {
             System.out.println("We done goofed");;
         }
-        
+
     }
-    
-    
-    
 
 }
