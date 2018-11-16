@@ -5,8 +5,10 @@
  */
 package movierecsys.bll.util;
 
+import java.io.IOException;
 import java.util.List;
 import movierecsys.be.Movie;
+import movierecsys.dal.MovieDAO;
 
 /**
  *
@@ -14,9 +16,10 @@ import movierecsys.be.Movie;
  */
 public class MovieSearcher
 {
-    public List<Movie> search(List<Movie> searchBase, String query)
+    public List<Movie> search(List<Movie> searchBase, String query) throws IOException
     {
-        //TODO Movie search
+        MovieDAO md = new MovieDAO();
+        List<Movie> movies = md.getAllMovies();
         return null;
     }
     
