@@ -100,7 +100,7 @@ public class FileReaderTester
 //        System.out.println("User: " +userDAO.getUser(2905).getName());
 
         
-        User n = new User(2649289, " Pretty Waman");
+        User n = new User(7, " Georgi Facellie");
         userDAO.updateUser(n);
         
     }
