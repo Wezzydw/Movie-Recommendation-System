@@ -22,15 +22,16 @@ public class MovieSearcher
     {
         MovieDAO md = new MovieDAO();
         List<Movie> movies = md.getAllMovies();
+        List<Movie> empty = new ArrayList();
         
         if (!query.isEmpty())
         {
             for (Movie m : movies)
             {
                 if (m.getTitle().contains(query))
-                    searchBase.add(m);
+                    empty.add(m);
             }
-            return searchBase;
+            return empty;
         }
         return movies;
     }

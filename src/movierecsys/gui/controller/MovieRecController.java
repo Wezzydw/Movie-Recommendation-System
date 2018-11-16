@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
@@ -28,6 +29,7 @@ public class MovieRecController implements Initializable
 {
     MovieSearcher ms;
     List<Movie> searchBase;
+    List<Movie> empty;
 
     /**
      * The TextField containing the query word.
@@ -35,28 +37,39 @@ public class MovieRecController implements Initializable
     @FXML
     private ListView<Movie> lstMovies;
     @FXML
-    private TextField txtMovieSearcjh;
+    private TextField txtMovieSearch;
 
 
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
+       empty = new ArrayList();
        ms = new MovieSearcher();
        searchBase = new ArrayList();
+        System.out.println("Tester");
         try
         {
-            searchBase = ms.search(searchBase, "");
+            searchBase = ms.search(empty, "");
         } catch (IOException ex)
         {
             System.out.println("Error");
         }
-        //lstMovies = new ListView<Movie>(searchBase);
         lstMovies.getItems().addAll(searchBase);
     }
 
     @FXML
     private void handleString(KeyEvent event)
     {
+        String s = txtMovieSearch.getText();
+        try
+        {
+            lstMovies.getItems().setAll(ms.search(empty, s));
+            
+        } catch (IOException ex)
+        {
+            System.out.println("We done goofed");;
+        }
+        
     }
     
     
