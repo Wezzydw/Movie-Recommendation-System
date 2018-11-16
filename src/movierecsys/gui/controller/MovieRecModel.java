@@ -35,7 +35,7 @@ public class MovieRecModel
         ms = new MovieSearcher();
         mv = FXCollections.observableArrayList();
         mv.addAll(ms.search(test, ""));
-        mv.addListener(listener);
+       // mv.addListener(listener);
     }
     
 }
