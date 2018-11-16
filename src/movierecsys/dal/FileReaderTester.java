@@ -99,8 +99,9 @@ public class FileReaderTester
 //        userDAO.getUser(2905);
 //        System.out.println("User: " +userDAO.getUser(2905).getName());
 
-        User t = new User(2649286, "Claus Hansen");
-        userDAO.updateUser(t);
+        
+        User n = new User(2649289, " Pretty Waman");
+        userDAO.updateUser(n);
         
     }
 }
