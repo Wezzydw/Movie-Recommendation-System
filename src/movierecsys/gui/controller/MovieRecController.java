@@ -44,7 +44,7 @@ public class MovieRecController implements Initializable
     public void initialize(URL url, ResourceBundle rb)
     {
        ms = new MovieSearcher();
-       searchBase = new ArrayList();
+       searchBase = (List<Movie>) new ListView();
         try
         {
             searchBase = ms.search(searchBase, "");
@@ -52,6 +52,7 @@ public class MovieRecController implements Initializable
         {
             System.out.println("Error");
         }
+        lstMovies.getItems().addAll(searchBase);
         
     }
 
