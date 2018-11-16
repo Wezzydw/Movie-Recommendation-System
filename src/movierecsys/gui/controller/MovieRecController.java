@@ -44,7 +44,7 @@ public class MovieRecController implements Initializable
     public void initialize(URL url, ResourceBundle rb)
     {
        ms = new MovieSearcher();
-       searchBase = (List<Movie>) new ListView();
+       searchBase = new ArrayList();
         try
         {
             searchBase = ms.search(searchBase, "");
