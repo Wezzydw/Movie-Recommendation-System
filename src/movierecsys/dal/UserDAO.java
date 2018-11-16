@@ -6,13 +6,18 @@
 package movierecsys.dal;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
+import movierecsys.be.Movie;
 import movierecsys.be.User;
 
 /**
@@ -109,9 +114,29 @@ public class UserDAO
      *
      * @param user The updated user.
      */
-    public void updateUser(User user)
+    public void updateUser(User user) throws IOException
     {
-        //TODO Update user.
+        File tmpfile = new File("data/temp_users.txt");
+        List<User> getAllUsers = getAllUsers();
+        int id = user.getId();
+        String title = movie.getTitle();
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(tmpfile)))
+        {
+            for (User m : getAllUsers)
+            {
+                if (m.getId() == id)
+                {
+                    bw.write(m.getId() + "," + year + "," + title);
+                    bw.newLine();
+                } else
+                {
+                    bw.write(m.getId() + "," + m.getYear() + "," + m.getTitle());
+                    bw.newLine(); //Hej
+                }
+            }
+        }
+        Files.copy(tmpfile.toPath(), new File(USERS_SOURCE).toPath(), StandardCopyOption.REPLACE_EXISTING);
+        Files.delete(tmpfile.toPath());
     }
 
 }
