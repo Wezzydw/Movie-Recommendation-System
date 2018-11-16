@@ -43,7 +43,7 @@ public class RatingDAO
     {
         //Blev nødt til at skrive den korte, men tunge måde at gøre denne på.
         //Der er ikke en måde at lave nyt data i midten af den hele, uden at skulle shifte det hele
-        //Og så bliver det bedre at bruge getAllRatings sort end at lave en ny
+        //
         //List<Rating> ratings = getAllRatings();
         int id = rating.getMovie();
         int user = rating.getUser();
@@ -58,25 +58,27 @@ public class RatingDAO
             int size = ratings.size();
             for (int i = 0; i < ratings.size(); i++)
             {
-
+                //Tjekker for duplicates
                 if (id == ratings.get(i).getMovie() && user == ratings.get(i).getUser())
                 {
                     hasDuplicate = true;
                 }
                 if (hasDuplicate == false)
                 {
-
+                    //Hvis det nye id og listens er ens, og nye userid er mindre en listens, tilføj til listen
                     if (id == ratings.get(i).getMovie() && user < ratings.get(i).getUser() && hasCreatedRating == false)
                     {
                         ratings.add(i, rating);
                         hasCreatedRating = true;
-
+                        
+                        //Ellers hvis den tidligere id er mindre end nuværende id, indsæt i listen
                     } else if (i != 0 && ratings.get(i - 1).getMovie() < ratings.get(i).getMovie() && hasCreatedRating == false && ratings.get(i - 1).getMovie() == id)
                     {
                         ratings.add(i, rating);
                         hasCreatedRating = true;
 
                     }
+                    //Hvis listen er slut, tilføj til listen
                     if (i == (size - 1) && hasCreatedRating == false)
                     {
                         ratings.add(i, rating);
@@ -192,6 +194,8 @@ public class RatingDAO
      */
     public void deleteRating(Rating rating) throws IOException
     {
+        //Der var flere måder at håndtere det her på, enten skrive -1,-1,-1 til linjen og sortere det hele igen
+        //eller fjerne linjen med det samme.
         
         try (RandomAccessFile raf = new RandomAccessFile(RATING_SOURCE, "rw"))
         {
@@ -293,6 +297,7 @@ public class RatingDAO
 
     public void makeSmallFile() throws IOException
     {
+        //Laver en test fil der er nemmere at løbe igennem
         List<Rating> allRatings = getAllRatings();
         try (RandomAccessFile raf = new RandomAccessFile("data/user_ratings_small", "rw"))
         {
