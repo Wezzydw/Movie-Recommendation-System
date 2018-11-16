@@ -91,16 +91,16 @@ public class FileReaderTester
 //        }
 
         UserDAO userDAO = new UserDAO();
-//for (User m : userDAO.getAllUsers())
-//        {
-//            System.out.println("User: " + u.getId() + u.getName());
-//        }
+        for (User m : userDAO.getAllUsers())
+        {
+            System.out.println("User: " + m.getId() + m.getName());
+        }
         
 //        userDAO.getUser(2905);
 //        System.out.println("User: " +userDAO.getUser(2905).getName());
 
-        
-        User n = new User(7, " Georgi Facellie");
+        System.out.println("Antal users: " + userDAO.getAllUsers().size());
+        User n = new User(7, "Georgi Facellie");
         userDAO.updateUser(n);
         
     }

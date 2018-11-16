@@ -45,7 +45,7 @@ public class UserDAO
             {
                 if (!line.isEmpty())
                 {
-                    String[] s = br.readLine().split(",");
+                    String[] s = line.split(",");
                     int id = Integer.parseInt(s[0]);
                     String name = s[1];
                     User user = new User(id, name);
@@ -125,10 +125,12 @@ public class UserDAO
             {
                 if (m.getId() == id)
                 {
+                    System.out.println("Tester");
                     bw.write(m.getId() + "," + name);
                     bw.newLine();
                 } else
                 {
+                    System.out.println("test2");
                     bw.write(m.getId() + "," + m.getName());
                     bw.newLine();
                 }
