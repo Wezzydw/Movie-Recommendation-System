@@ -16,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import movierecsys.be.Movie;
 import movierecsys.bll.util.MovieSearcher;
 
@@ -27,17 +28,14 @@ public class MovieRecController implements Initializable
 {
     MovieSearcher ms;
     List<Movie> searchBase;
-    /**
-     * The TextField containing the URL of the targeted website.
-     */
-    @FXML
-    private TextField txtMovieSearch;
 
     /**
      * The TextField containing the query word.
      */
     @FXML
     private ListView<Movie> lstMovies;
+    @FXML
+    private TextField txtMovieSearcjh;
 
 
     @Override
@@ -52,8 +50,16 @@ public class MovieRecController implements Initializable
         {
             System.out.println("Error");
         }
+        //lstMovies = new ListView<Movie>(searchBase);
         lstMovies.getItems().addAll(searchBase);
-        
     }
+
+    @FXML
+    private void handleString(KeyEvent event)
+    {
+    }
+    
+    
+    
 
 }
