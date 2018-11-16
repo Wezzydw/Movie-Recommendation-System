@@ -91,9 +91,9 @@ public class FileReaderTester
 //        }
 
         UserDAO userDAO = new UserDAO();
-        for (User u : userDAO.getAllUsers())
+        for (User m : userDAO.getAllUsers())
         {
-            System.out.println("User: " + u.getId() + u.getName());
+            System.out.println("User: " + m.getId() + m.getName());
         }
         
         
