@@ -46,13 +46,7 @@ public class MovieRecController implements Initializable
         empty = new ArrayList();
         ms = new MovieSearcher();
         searchBase = new ArrayList();
-        try
-        {
-            searchBase = ms.search(empty, "");
-        } catch (IOException ex)
-        {
-            System.out.println("Error");
-        }
+        searchBase = ms.search(empty, "");
         lstMovies.getItems().addAll(searchBase);
     }
 
@@ -60,14 +54,7 @@ public class MovieRecController implements Initializable
     private void handleString(KeyEvent event)
     {
         String s = txtMovieSearch.getText();
-        try
-        {
-            lstMovies.getItems().setAll(ms.search(empty, s));
-
-        } catch (IOException ex)
-        {
-            System.out.println("We done goofed");;
-        }
+        lstMovies.getItems().setAll(ms.search(empty, s));
 
     }
 

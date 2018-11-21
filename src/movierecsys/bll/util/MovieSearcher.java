@@ -18,22 +18,21 @@ import movierecsys.dal.MovieDAO;
 public class MovieSearcher
 {
 
-    public List<Movie> search(List<Movie> searchBase, String query) throws IOException
+    public List<Movie> search(List<Movie> searchBase, String query)
     {
-        MovieDAO md = new MovieDAO();
-        List<Movie> movies = md.getAllMovies();
+        
         List<Movie> empty = new ArrayList();
         
         if (!query.isEmpty())
         {
-            for (Movie m : movies)
+            for (Movie m : searchBase)
             {
                 if (m.getTitle().toLowerCase().contains(query.toLowerCase()))
                     empty.add(m);
             }
             return empty;
         }
-        return movies;
+        return empty;
     }
 
 }

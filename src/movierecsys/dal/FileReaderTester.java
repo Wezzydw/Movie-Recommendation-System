@@ -5,8 +5,11 @@
  */
 package movierecsys.dal;
 
+import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import java.io.IOException;
-import java.io.RandomAccessFile;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import movierecsys.be.Movie;
 import movierecsys.be.Rating;
@@ -27,7 +30,11 @@ public class FileReaderTester
      */
     public static void main(String[] args) throws IOException
     {
-
+       // mitigateMovies();
+        //mitigateUsers();
+        mitigateRatings();
+//        MovieDbDao db = new MovieDbDao();
+//        db.getAllMovies();
 //        MovieDAO movieDao = new MovieDAO();
 //        movieDao.returnToBackupList();
 //        Movie movie = movieDao.createMovie(2020, "Tonny og Spasserbussen 3, nu med folk"); //Only run this once, or you will get multiple entries!
@@ -90,19 +97,134 @@ public class FileReaderTester
 //            System.out.println("Movie: " + r.getMovie() + " User: " + r.getUser() + " Rating: " + r.getRating());
 //        }
 
-        UserDAO userDAO = new UserDAO();
-        for (User m : userDAO.getAllUsers())
-        {
-            System.out.println("User: " + m.getId() + m.getName());
+//        UserDAO userDAO = new UserDAO();
+//        for (User m : userDAO.getAllUsers())
+//        {
+//            System.out.println("User: " + m.getId() + m.getName());
+//        }
+//        
+////        userDAO.getUser(2905);
+////        System.out.println("User: " +userDAO.getUser(2905).getName());
+//
+//        System.out.println("Antal users: " + userDAO.getAllUsers().size());
+//        User n = new User(7, "Georgi Facellie");
+//        userDAO.updateUser(n);
         }
-        
-//        userDAO.getUser(2905);
-//        System.out.println("User: " +userDAO.getUser(2905).getName());
+    /**
+     *
+     * @throws IOException
+     */
+    public static void mitigateMovies() throws IOException
+        {
+        SQLServerDataSource ds = new SQLServerDataSource();
+        ds.setServerName("10.176.111.31");
+        ds.setDatabaseName("MRsys");
+        ds.setUser("CS2018A_6");
+        ds.setPassword("CS2018A_6");
 
-        System.out.println("Antal users: " + userDAO.getAllUsers().size());
-        User n = new User(7, "Georgi Facellie");
-        userDAO.updateUser(n);
+        MovieDAO mvDAO = new MovieDAO();
+        List<Movie> movies = mvDAO.getAllMovies();
         
+        try (Connection con = ds.getConnection())
+        {
+            
+            Statement statement = con.createStatement();
+            
+            for (Movie movie : movies)
+            {
+                String sql = "INSERT INTO MOVIE (id,year,title) VALUES("
+                        + movie.getId() + ","
+                        + movie.getYear() + ",'"
+                        + movie.getTitle().replace("'", "") + "');";
+                
+                System.out.println(sql);
+                int i = statement.executeUpdate(sql);
+                //INSERT INTO MOVIE (id,year,title) VALUES (1,2018,Venom);
+                System.out.println("Affected row = " + i);            
+            }
+        } catch (SQLException ex)
+            {
+                ex.printStackTrace();
+            }
+    
+    
+    
+        }
+    
+    public static void mitigateUsers() throws IOException
+    {
+        SQLServerDataSource ds = new SQLServerDataSource();
+        ds.setServerName("10.176.111.31");
+        ds.setDatabaseName("MRsys");
+        ds.setUser("CS2018A_6");
+        ds.setPassword("CS2018A_6");
+
+        List<User> users = new UserDAO().getAllUsers();
+
+        try (Connection con = ds.getConnection())
+        {
+            Statement statement = con.createStatement();
+            int counter = 0;
+            for (User user : users)
+            {
+                String sql = "INSERT INTO [User] (id,name) VALUES("
+                        + user.getId() + ",'"
+                        + user.getName() + "');";
+                statement.addBatch(sql);
+                counter++;
+                if (counter % 1000 == 0)
+                {
+                    statement.executeBatch();
+                    System.out.println("Added 1000 users.");
+                }
+            }
+            if (counter % 1000 != 0)
+            {
+                statement.executeBatch();
+                System.out.println("Added final batch of users.");
+            }
+        } catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+    }
+    
+    public static void mitigateRatings() throws IOException
+    {
+        List<Rating> allRatings = new RatingDAO().getAllRatings();
+        SQLServerDataSource ds = new SQLServerDataSource();
+        ds.setServerName("10.176.111.31");
+        ds.setDatabaseName("MRsys");
+        ds.setUser("CS2018A_6");
+        ds.setPassword("CS2018A_6");
+        try (Connection con = ds.getConnection())
+        {
+            Statement st = con.createStatement();
+            int counter = 0;
+            for (Rating rating : allRatings)
+            {
+                String sql = "INSERT INTO Rating (movieId, userId, rating) VALUES ("
+                        + rating.getMovie() + ","
+                        + rating.getUser() + ","
+                        + rating.getRating()
+                        + ");";
+                st.addBatch(sql);
+                counter++;
+                if (counter % 10000 == 0)
+                {
+                    st.executeBatch();
+                    System.out.println("Added " + counter + " ratings.");
+                }
+            }
+            if (counter % 10000 != 0)
+            {
+                st.executeBatch();
+                System.out.println("Added final batch of ratings.");
+            }
+        } catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
     }
 }
 
