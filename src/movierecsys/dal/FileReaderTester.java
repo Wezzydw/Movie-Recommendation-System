@@ -7,7 +7,6 @@ package movierecsys.dal;
 
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
