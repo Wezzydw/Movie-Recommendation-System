@@ -31,6 +31,7 @@ public class MovieRecController implements Initializable
     MovieSearcher ms;
     List<Movie> searchBase;
     List<Movie> empty;
+    MovieRecModel mrm;
 
     /**
      * The TextField containing the query word.
@@ -43,6 +44,7 @@ public class MovieRecController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
+        mrm = new MovieRecModel();
         empty = new ArrayList();
         ms = new MovieSearcher();
         searchBase = new ArrayList();
@@ -62,6 +64,7 @@ public class MovieRecController implements Initializable
         String s = txtMovieSearch.getText();
         try
         {
+            //New one, testing later lstMovies.getItems().setAll(mrm.getOBList(s));
             lstMovies.getItems().setAll(ms.search(empty, s));
 
         } catch (IOException ex)

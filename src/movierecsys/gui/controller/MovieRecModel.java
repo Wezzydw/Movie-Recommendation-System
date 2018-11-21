@@ -30,12 +30,18 @@ public class MovieRecModel
     ObservableList<Movie> mv;
     List<Movie> test;
     
-    public void run() throws IOException
+    public void run(String q) throws IOException
     {
         ms = new MovieSearcher();
-        mv = FXCollections.observableArrayList();
-        mv.addAll(ms.search(test, ""));
+        mv = FXCollections.observableArrayList(ms.search(test, q));
+        //mv.addAll(ms.search(test, ""));
        // mv.addListener(listener);
+    }
+    
+    public ObservableList<Movie> getOBList(String q) throws IOException
+    {
+        run(q);
+        return mv;
     }
     
 }

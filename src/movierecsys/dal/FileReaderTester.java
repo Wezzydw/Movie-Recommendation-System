@@ -5,8 +5,12 @@
  */
 package movierecsys.dal;
 
+import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import movierecsys.be.Movie;
 import movierecsys.be.Rating;
@@ -16,17 +20,16 @@ import movierecsys.be.User;
  *
  * @author pgn
  */
-public class FileReaderTester
-{
+public class FileReaderTester {
 
+    UandP up = new UandP();
     /**
      * Example method. This is the code I used to create the users.txt files.
      *
      * @param args
      * @throws IOException
      */
-    public static void main(String[] args) throws IOException
-    {
+    public static void main(String[] args) throws IOException {
 
 //        MovieDAO movieDao = new MovieDAO();
 //        movieDao.returnToBackupList();
@@ -79,7 +82,6 @@ public class FileReaderTester
 //            System.out.println("Movie: " + r.getMovie() + " User: " + r.getUser() + " Rating: " + r.getRating());
 //        }
 //        ratingDao.deleteRating(newRating1);
-        
 //
 //        for (Rating r : ratingDao.getRatings(test2))
 //        {
@@ -89,25 +91,135 @@ public class FileReaderTester
 //        {
 //            System.out.println("Movie: " + r.getMovie() + " User: " + r.getUser() + " Rating: " + r.getRating());
 //        }
+//        UserDAO userDAO = new UserDAO();
+//        for (User m : userDAO.getAllUsers())
+//        {
+//            System.out.println("User: " + m.getId() + m.getName());
+//        }
+//        
+////        userDAO.getUser(2905);
+////        System.out.println("User: " +userDAO.getUser(2905).getName());
+//
+//        System.out.println("Antal users: " + userDAO.getAllUsers().size());
+//        User n = new User(7, "Georgi Facellie");
+//        userDAO.updateUser(n);
+        FileReaderTester f = new FileReaderTester();
+        //MovieDAODB mdb = new MovieDAODB();
+        //mdb.getAllMovies();
+        //f.mmovies();
+      //f.mUsers();
+//        f.mRatings();
 
-        UserDAO userDAO = new UserDAO();
-        for (User m : userDAO.getAllUsers())
+        MovieDAODB mddb = new MovieDAODB();
+        List<Movie> test = mddb.getAllMovies();
+        for (Movie m : test)
         {
-            System.out.println("User: " + m.getId() + m.getName());
+            System.out.println("Movie m: " + m);
         }
-        
-//        userDAO.getUser(2905);
-//        System.out.println("User: " +userDAO.getUser(2905).getName());
+    }
+    
 
-        System.out.println("Antal users: " + userDAO.getAllUsers().size());
-        User n = new User(7, "Georgi Facellie");
-        userDAO.updateUser(n);
-        
+    public void mmovies() throws IOException {
+        SQLServerDataSource ds = new SQLServerDataSource();
+        ds.setServerName("10.176.111.31");
+        ds.setDatabaseName("MRSDATABASE");
+        ds.setUser(up.getUser());
+        ds.setPassword(up.getPw());
+
+        MovieDAO mvDAO = new MovieDAO();
+        List<Movie> movies = mvDAO.getAllMovies();
+        try (Connection con = ds.getConnection()) {
+            int counter = 0;
+            Statement statement = con.createStatement();
+            for (Movie m : movies) {
+
+                String str = ("INSERT INTO Movie (id, year, title) VALUES ("
+                        + m.getId() + ","
+                        + m.getYear() + ",'"
+                        + m.getTitle().replace("'", "") + "');");
+                statement.addBatch(str);
+                counter++;
+                if (counter % 1000 == 0) {
+                    statement.executeBatch();
+                    System.out.println(counter + "added so far");
+                }
+
+            }
+            statement.executeBatch();
+            System.out.println("Done here");
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
+    public void mRatings() throws IOException {
+        SQLServerDataSource ds = new SQLServerDataSource();
+        ds.setServerName("10.176.111.31");
+        ds.setDatabaseName("MRSDATABASE");
+        ds.setUser(up.getUser());
+        ds.setPassword(up.getPw());
+
+        RatingDAO rDAO = new RatingDAO();
+        List<Rating> ratings = rDAO.getAllRatings();
+        try (Connection con = ds.getConnection()) {
+            Statement statement = con.createStatement();
+            int counter = 0;
+            for (Rating r : ratings) {
+
+                String str = ("INSERT INTO Rating (id, users, rating) VALUES ("
+                        + r.getMovie() + ","
+                        + r.getUser() + ",'"
+                        + r.getRating() + "');");
+                statement.addBatch(str);
+                //System.out.println(str);
+                counter++;
+                if (counter % 10000 == 0) {
+                    statement.executeBatch();
+                    System.out.println(counter + "added so far");
+                }
+
+            }
+            statement.executeBatch();
+            System.out.println("Done here");
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void mUsers() throws IOException {
+        SQLServerDataSource ds = new SQLServerDataSource();
+        ds.setServerName("10.176.111.31");
+        ds.setDatabaseName("MRSDATABASE");
+        ds.setUser(up.getUser());
+        ds.setPassword(up.getPw());
+
+        UserDAO uDAO = new UserDAO();
+        List<User> users = uDAO.getAllUsers();
+        try (Connection con = ds.getConnection()) {
+            int counter = 0;
+            Statement statement = con.createStatement();
+            for (User u : users) {
+
+                String str = ("INSERT INTO [User] (id, name) VALUES ("
+                        + u.getId() + ",'"
+                        + u.getName() + ",'" + ");");
+                statement.addBatch(str);
+                //System.out.println(str);
+                counter++;
+                if (counter % 10000 == 0) {
+                    statement.executeBatch();
+                    System.out.println(counter + "added so far");
+                }
+
+            }
+            statement.executeBatch();
+            System.out.println("Done here");
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 }
-
-      
-        
-     
-
-  
