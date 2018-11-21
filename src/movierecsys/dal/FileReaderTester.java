@@ -21,6 +21,11 @@ import movierecsys.be.User;
  */
 public class FileReaderTester
 {
+    
+    private DbConnectionProvider provider;
+
+   
+    
 
     /**
      * Example method. This is the code I used to create the users.txt files.
@@ -116,12 +121,9 @@ public class FileReaderTester
      */
     public static void mitigateMovies() throws IOException
         {
-        SQLServerDataSource ds = new SQLServerDataSource();
-        ds.setServerName("10.176.111.31");
-        ds.setDatabaseName("MRsys");
-        ds.setUser("CS2018A_6");
-        ds.setPassword("CS2018A_6");
-
+        
+        DbConnectionProvider ds = new DbConnectionProvider();
+        
         MovieDAO mvDAO = new MovieDAO();
         List<Movie> movies = mvDAO.getAllMovies();
         
@@ -153,11 +155,7 @@ public class FileReaderTester
     
     public static void mitigateUsers() throws IOException
     {
-        SQLServerDataSource ds = new SQLServerDataSource();
-        ds.setServerName("10.176.111.31");
-        ds.setDatabaseName("MRsys");
-        ds.setUser("CS2018A_6");
-        ds.setPassword("CS2018A_6");
+        DbConnectionProvider ds = new DbConnectionProvider();
 
         List<User> users = new UserDAO().getAllUsers();
 
@@ -192,11 +190,7 @@ public class FileReaderTester
     public static void mitigateRatings() throws IOException
     {
         List<Rating> allRatings = new RatingDAO().getAllRatings();
-        SQLServerDataSource ds = new SQLServerDataSource();
-        ds.setServerName("10.176.111.31");
-        ds.setDatabaseName("MRsys");
-        ds.setUser("CS2018A_6");
-        ds.setPassword("CS2018A_6");
+        DbConnectionProvider ds = new DbConnectionProvider();
         try (Connection con = ds.getConnection())
         {
             Statement st = con.createStatement();
