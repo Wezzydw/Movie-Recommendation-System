@@ -27,7 +27,7 @@ import movierecsys.be.Movie;
  *
  * @author pgn
  */
-public class MovieDAO implements IMovieRepository
+public class MovieDAO
 {
 
     private static final String MOVIE_SOURCE = "data/movie_titles.txt";
@@ -38,7 +38,6 @@ public class MovieDAO implements IMovieRepository
      * @return List of movies.
      * @throws java.io.IOException
      */
-    @Override
     public List<Movie> getAllMovies() throws IOException
     {
         List<Movie> allMovies = new ArrayList();
@@ -99,7 +98,6 @@ public class MovieDAO implements IMovieRepository
      * @return The object representation of the movie added to the persistence
      * storage.
      */
-    @Override
     public Movie createMovie(int releaseYear, String title) throws IOException
     {
         Path path = new File(MOVIE_SOURCE).toPath();
@@ -139,7 +137,6 @@ public class MovieDAO implements IMovieRepository
      *
      * @param movie The movie to delete.
      */
-    @Override
     public void deleteMovie(Movie movie) throws IOException
     {
         File tmpfile = new File("data/tmp_movie_titles.txt");
@@ -167,7 +164,6 @@ public class MovieDAO implements IMovieRepository
      *
      * @param movie The updated movie.
      */
-    @Override
     public void updateMovie(Movie movie) throws IOException
     {
         File tmpfile = new File("data/tmp_movie_title.txt");
@@ -200,7 +196,6 @@ public class MovieDAO implements IMovieRepository
      * @param id ID of the movie.
      * @return A Movie object.
      */
-    @Override
     public Movie getMovie(int id) throws IOException
     {
         //Old works in everycase system, but supposedly slower
@@ -257,7 +252,6 @@ public class MovieDAO implements IMovieRepository
         return null;
     }
 
-    @Override
     public void returnToBackupList() throws IOException
     {
         File tmpfile = new File("data/backup_movie_titles.txt");

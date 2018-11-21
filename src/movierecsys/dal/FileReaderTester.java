@@ -21,12 +21,6 @@ import movierecsys.be.User;
  */
 public class FileReaderTester
 {
-    
-    private DbConnectionProvider provider;
-
-   
-    
-
     /**
      * Example method. This is the code I used to create the users.txt files.
      *
