@@ -47,15 +47,15 @@ public class FileReaderTester {
 //        movieDao.createMovie(2008, "Dannys nye bil");
 //        movieDao.deleteMovie(movieDao.getMovie(17753));
 //        Movie n = new Movie(17752, 2008, "Out of Order 2");
-//        movieDao.updateMovie(n);
-//
-        RatingDAO ratingDao = new RatingDAO();
-        //ratingDao.makeSmallFile();
-        //System.out.println("done");
-        for (Rating r : ratingDao.getAllRatings())
-        {
-            System.out.println("Movie: " + r.getMovie() + " User: " + r.getUser() + " Rating: " + r.getRating());
-        }
+////        movieDao.updateMovie(n);
+////
+//        RatingDAO ratingDao = new RatingDAO();
+//        //ratingDao.makeSmallFile();
+//        //System.out.println("done");
+//        for (Rating r : ratingDao.getAllRatings())
+//        {
+//            System.out.println("Movie: " + r.getMovie() + " User: " + r.getUser() + " Rating: " + r.getRating());
+//        }
 //        Rating newRating = new Rating(8, 2535052, 5);
 //        Rating newRating6 = new Rating(28, 2535052, -3);
 //        ratingDao.createRating(newRating);
