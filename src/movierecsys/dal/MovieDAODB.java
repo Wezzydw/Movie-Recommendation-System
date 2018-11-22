@@ -44,7 +44,6 @@ public class MovieDAODB implements IMovieRepository {
         ds.setUser(up.getUser());
         ds.setPassword(up.getPw());
 
-        MovieDAO mvDAO = new MovieDAO();
         List<Movie> movies = new ArrayList();
         try (Connection con = ds.getConnection()) {
             Statement statement = con.createStatement();
