@@ -7,17 +7,10 @@ package movierecsys.gui.controller;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Observable;
 import javafx.collections.FXCollections;
-import static javafx.collections.FXCollections.observableArrayList;
-import static javafx.collections.FXCollections.observableArrayList;
-import static javafx.collections.FXCollections.observableArrayList;
-import static javafx.collections.FXCollections.observableArrayList;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import movierecsys.be.Movie;
 import movierecsys.bll.util.MovieSearcher;
-import sun.nio.cs.ext.MS874;
 
 /**
  *

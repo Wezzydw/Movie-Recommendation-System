@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
@@ -48,7 +47,13 @@ public class MovieRecController implements Initializable
         empty = new ArrayList();
         ms = new MovieSearcher();
         searchBase = new ArrayList();
-        searchBase = ms.search(empty, "");
+        try
+        {
+            searchBase = ms.search(empty, "");
+        } catch (IOException ex)
+        {
+            Logger.getLogger(MovieRecController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         lstMovies.getItems().addAll(searchBase);
     }
 

@@ -49,13 +49,13 @@ public class FileReaderTester {
 //        Movie n = new Movie(17752, 2008, "Out of Order 2");
 //        movieDao.updateMovie(n);
 //
-//        RatingDAO ratingDao = new RatingDAO();
+        RatingDAO ratingDao = new RatingDAO();
         //ratingDao.makeSmallFile();
         //System.out.println("done");
-//        for (Rating r : ratingDao.getAllRatings())
-//        {
-//            System.out.println("Movie: " + r.getMovie() + " User: " + r.getUser() + " Rating: " + r.getRating());
-//        }
+        for (Rating r : ratingDao.getAllRatings())
+        {
+            System.out.println("Movie: " + r.getMovie() + " User: " + r.getUser() + " Rating: " + r.getRating());
+        }
 //        Rating newRating = new Rating(8, 2535052, 5);
 //        Rating newRating6 = new Rating(28, 2535052, -3);
 //        ratingDao.createRating(newRating);
@@ -111,19 +111,19 @@ public class FileReaderTester {
 //        System.out.println("Antal users: " + userDAO.getAllUsers().size());
 //        User n = new User(7, "Georgi Facellie");
 //        userDAO.updateUser(n);
-        FileReaderTester f = new FileReaderTester();
+        //FileReaderTester f = new FileReaderTester();
         //MovieDAODB mdb = new MovieDAODB();
         //mdb.getAllMovies();
         //f.mmovies();
       //f.mUsers();
 //        f.mRatings();
 
-        MovieDAODB mddb = new MovieDAODB();
-        List<Movie> test = mddb.getAllMovies();
-        for (Movie m : test)
-        {
-            System.out.println("Movie m: " + m);
-        }
+//        MovieDAODB mddb = new MovieDAODB();
+//        List<Movie> test = mddb.getAllMovies();
+//        for (Movie m : test)
+//        {
+//            System.out.println("Movie m: " + m);
+        //}
 //        UserDAO userDAO = new UserDAO();
 //        for (User m : userDAO.getAllUsers())
 //        {

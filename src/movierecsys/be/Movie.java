@@ -51,7 +51,7 @@ public class Movie
     @Override
     public String toString()
     {
-        return "Movie{" + "id=" + id + ", title=" + title + ", year=" + year + '}';
+        return String.format("%-9s%-25s", "Year: " + year, "Title: " + title + "Id: " +id);
     }
     
     
