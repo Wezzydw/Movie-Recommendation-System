@@ -48,29 +48,19 @@ public class MovieRecController implements Initializable
         empty = new ArrayList();
         ms = new MovieSearcher();
         searchBase = new ArrayList();
-        try
-        {
-            searchBase = ms.search(empty, "");
-        } catch (IOException ex)
-        {
-            System.out.println("Error");
-        }
+        searchBase = ms.search(empty, "");
         lstMovies.getItems().addAll(searchBase);
     }
 
     @FXML
-    private void handleString(KeyEvent event)
+    private void handleString(KeyEvent event) throws IOException
     {
         String s = txtMovieSearch.getText();
-        try
-        {
+
             //New one, testing later lstMovies.getItems().setAll(mrm.getOBList(s));
             lstMovies.getItems().setAll(ms.search(empty, s));
 
-        } catch (IOException ex)
-        {
-            System.out.println("We done goofed");;
-        }
+
 
     }
 
