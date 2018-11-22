@@ -20,21 +20,31 @@ public class MovieRecModel
 {
     
     MovieSearcher ms;
+    ObservableList<Movie> mvAll;
     ObservableList<Movie> mv;
+    ObservableList<Movie> all;
     List<Movie> test;
     
-    public void run(String q) throws IOException
+    public MovieRecModel() throws IOException
     {
         ms = new MovieSearcher();
-        mv = FXCollections.observableArrayList(ms.search(test, q));
-        //mv.addAll(ms.search(test, ""));
-       // mv.addListener(listener);
+        mv = FXCollections.observableArrayList(ms.search(test, ""));
+        all = FXCollections.observableArrayList(ms.search(test, ""));
     }
     
-    public ObservableList<Movie> getOBList(String q) throws IOException
+    public ObservableList<Movie> getOBList() throws IOException
     {
-        run(q);
         return mv;
+    }
+    
+    public void changeView(String q) throws IOException
+    {
+        mvAll = FXCollections.observableArrayList(ms.search(all, q));
+        mv.clear();
+        for (Movie l : mvAll)
+        {
+            mv.add(l);
+        }
     }
     
 }

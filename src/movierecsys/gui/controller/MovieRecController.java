@@ -28,8 +28,6 @@ public class MovieRecController implements Initializable
 {
 
     MovieSearcher ms;
-    List<Movie> searchBase;
-    List<Movie> empty;
     MovieRecModel mrm;
 
     /**
@@ -40,33 +38,28 @@ public class MovieRecController implements Initializable
     @FXML
     private TextField txtMovieSearch;
 
+    public MovieRecController() throws IOException
+    {
+        this.mrm = new MovieRecModel();
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        mrm = new MovieRecModel();
-        empty = new ArrayList();
-        ms = new MovieSearcher();
-        searchBase = new ArrayList();
         try
         {
-            searchBase = ms.search(empty, "");
+            lstMovies.setItems(mrm.getOBList());
         } catch (IOException ex)
         {
-            Logger.getLogger(MovieRecController.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Shit died here");
         }
-        lstMovies.getItems().addAll(searchBase);
     }
 
     @FXML
     private void handleString(KeyEvent event) throws IOException
     {
         String s = txtMovieSearch.getText();
-
-            //New one, testing later lstMovies.getItems().setAll(mrm.getOBList(s));
-            lstMovies.getItems().setAll(ms.search(empty, s));
-
-
-
+        mrm.changeView(s);
     }
 
 }

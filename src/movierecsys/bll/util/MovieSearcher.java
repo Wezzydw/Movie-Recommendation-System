@@ -27,7 +27,7 @@ public class MovieSearcher
         
         if (!query.isEmpty())
         {
-            for (Movie m : movies)
+            for (Movie m : searchBase)
             {
                 if (m.getTitle().toLowerCase().contains(query.toLowerCase()))
                     empty.add(m);
