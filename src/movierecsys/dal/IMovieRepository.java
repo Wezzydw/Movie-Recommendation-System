@@ -48,6 +48,7 @@ public interface IMovieRepository {
      */
     Movie getMovie(int id) throws IOException;
 
+
     /**
      * Updates the movie in the persistence storage to reflect the values in the
      * given Movie object.

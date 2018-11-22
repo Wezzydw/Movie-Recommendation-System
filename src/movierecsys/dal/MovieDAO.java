@@ -28,6 +28,7 @@ import movierecsys.be.Movie;
  * @author pgn
  */
 public class MovieDAO implements IMovieRepository
+
 {
 
     private static final String MOVIE_SOURCE = "data/movie_titles.txt";
@@ -257,10 +258,5 @@ public class MovieDAO implements IMovieRepository
         return null;
     }
 
-    public void returnToBackupList() throws IOException
-    {
-        File tmpfile = new File("data/backup_movie_titles.txt");
-        Files.copy(tmpfile.toPath(), new File(MOVIE_SOURCE).toPath(), StandardCopyOption.REPLACE_EXISTING);
-    }
 
 }
