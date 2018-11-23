@@ -6,17 +6,23 @@
 
 package movierecsys.bll;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import movierecsys.be.Movie;
 import movierecsys.be.Rating;
 import movierecsys.be.User;
+import movierecsys.dal.IMovieRepository;
+import movierecsys.dal.MovieDAODB;
 
 /**
  *
  * @author pgn
  */
 public class MRSManager implements MRSOwsLogicFacade {
-
+    
+    IMovieRepository mDAODB = new MovieDAODB();
     @Override
     public List<Rating> getRecommendedMovies(User user)
     {
@@ -44,19 +50,38 @@ public class MRSManager implements MRSOwsLogicFacade {
     @Override
     public Movie createMovie(int year, String title)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try
+        {
+            return mDAODB.createMovie(year, title);
+        } catch (IOException ex)
+        {
+            Logger.getLogger(MRSManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     @Override
     public void updateMovie(Movie movie)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try
+        {
+            mDAODB.updateMovie(movie);
+        } catch (IOException ex)
+        {
+            Logger.getLogger(MRSManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
     public void deleteMovie(Movie movie)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try
+        {
+            mDAODB.deleteMovie(movie);
+        } catch (IOException ex)
+        {
+            Logger.getLogger(MRSManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
