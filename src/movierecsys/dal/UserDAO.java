@@ -21,7 +21,7 @@ import movierecsys.be.User;
  *
  * @author pgn
  */
-public class UserDAO
+public class UserDAO implements IUserRepository
 {
 
     private static final String USERS_SOURCE = "data/users.txt";
@@ -31,6 +31,7 @@ public class UserDAO
      *
      * @return List of users.
      */
+    @Override
     public List<User> getAllUsers() throws IOException
     {
         File file = new File(USERS_SOURCE);
@@ -59,6 +60,7 @@ public class UserDAO
      * @param id The ID of the user.
      * @return The User with the ID.
      */
+    @Override
     public User getUser(int id) throws IOException
     {
         List<User> users = getAllUsers();
@@ -110,6 +112,7 @@ public class UserDAO
      *
      * @param user The updated user.
      */
+    @Override
     public void updateUser(User user) throws IOException
     {
         File tmpfile = new File("data/temp_users.txt");

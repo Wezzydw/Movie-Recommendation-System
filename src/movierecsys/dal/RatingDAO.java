@@ -21,7 +21,7 @@ import movierecsys.be.User;
  *
  * @author pgn
  */
-public class RatingDAO
+public class RatingDAO implements IRatingRepository
 {
 
     private static final String RATING_SOURCE = "data/user_ratings";
@@ -33,6 +33,7 @@ public class RatingDAO
      *
      * @param rating the rating to persist.
      */
+    @Override
     public void createRating(Rating rating) throws IOException
     {
         //Blev nødt til at skrive den korte, men tunge måde at gøre denne på.
@@ -142,6 +143,7 @@ public class RatingDAO
      * @param rating The updated rating to persist.
      * @throws java.io.IOException
      */
+    @Override
     public void updateRating(Rating rating) throws IOException
     {
         try (RandomAccessFile raf = new RandomAccessFile(RATING_SOURCE, "rw"))
@@ -187,6 +189,7 @@ public class RatingDAO
      *
      * @param rating
      */
+    @Override
     public void deleteRating(Rating rating) throws IOException
     {
         //Der var flere måder at håndtere det her på, enten skrive -1,-1,-1 til linjen og sortere det hele igen
@@ -220,6 +223,7 @@ public class RatingDAO
      *
      * @return List of all ratings.
      */
+    @Override
     public List<Rating> getAllRatings() throws IOException
     {
         List<Rating> allRatings = new ArrayList<>();
@@ -247,6 +251,7 @@ public class RatingDAO
      * @param user The user
      * @return The list of ratings.
      */
+    @Override
     public List<Rating> getRatings(User user) throws IOException
     {
         List<Rating> allRatings = new ArrayList();
@@ -290,6 +295,7 @@ public class RatingDAO
         return new Rating(movId, userId, rating);
     }
 
+    @Override
     public void makeSmallFile() throws IOException
     {
         //Laver en test fil der er nemmere at løbe igennem
