@@ -158,7 +158,7 @@ public class RatingDAODB implements IRatingRepository
         {
             Statement statement = con.createStatement();
            
-            String sql = "UPDATE FROM Rating SET movieId =" + rating.getMovie() + "AND " + "userId =" + rating.getUser() + ";";
+            String sql = "UPDATE FROM Rating SET rating = "+ rating.getRating() + "WHERE movieId =" + rating.getMovie() + "AND " + "userId =" + rating.getUser() + ";";
             statement.execute(sql);
 
         } catch (SQLException ex)
