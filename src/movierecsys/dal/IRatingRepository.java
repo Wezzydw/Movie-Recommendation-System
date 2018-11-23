@@ -47,7 +47,7 @@ public interface IRatingRepository
      */
     List<Rating> getRatings(User user) throws IOException;
 
-    void makeSmallFile() throws IOException;
+   
 
     /**
      * Updates the rating to reflect the given object. Assumes that the source

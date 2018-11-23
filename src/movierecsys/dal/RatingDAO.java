@@ -295,7 +295,7 @@ public class RatingDAO implements IRatingRepository
         return new Rating(movId, userId, rating);
     }
 
-    @Override
+    
     public void makeSmallFile() throws IOException
     {
         //Laver en test fil der er nemmere at løbe igennem
