@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="474.0" prefWidth="527.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="movierecsys.gui.controller.MovieRecController">
+<BorderPane id="borderPane" fx:id="borderPane" prefHeight="474.0" prefWidth="527.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="movierecsys.gui.controller.MovieRecController">
    <top>
       <VBox alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
          <children>
@@ -35,14 +35,12 @@
          </children>
       </VBox>
    </center>
-   <right>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+   <bottom>
+      <VBox prefHeight="44.0" prefWidth="527.0" BorderPane.alignment="CENTER">
          <children>
-            <TextField fx:id="txtAction" promptText="Action" />
-            <Button fx:id="btnC" mnemonicParsing="false" onAction="#btnC" text="btnC" />
-            <Button fx:id="btnU" mnemonicParsing="false" onAction="#btnU" text="btnU" />
-            <Button fx:id="btnD" mnemonicParsing="false" onAction="#btnD" text="btnD" />
+            <Button fx:id="BtnCRUD" mnemonicParsing="false" onAction="#BtnCRUD" text="C.R.U.D. Actions" />
+            <Button mnemonicParsing="false" text="User Login" />
          </children>
       </VBox>
-   </right>
+   </bottom>
 </BorderPane>

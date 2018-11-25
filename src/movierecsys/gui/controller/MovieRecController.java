@@ -7,11 +7,7 @@ package movierecsys.gui.controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,7 +22,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import movierecsys.be.Movie;
-import movierecsys.bll.MRSManager;
 import movierecsys.bll.util.MovieSearcher;
 
 /**
@@ -46,17 +41,8 @@ public class MovieRecController implements Initializable
     private ListView<Movie> lstMovies;
     @FXML
     private TextField txtMovieSearch;
+    @FXML
     private BorderPane borderPane;
-    @FXML
-    private Button btnC;
-    @FXML
-    private Button btnU;
-    @FXML
-    private Button btnD;
-    @FXML
-    private TextField txtAction;
-    
-    
 
     public MovieRecController() throws IOException
     {
@@ -82,29 +68,14 @@ public class MovieRecController implements Initializable
         mrm.changeView(s);
     }
 
-    @FXML
-    private void btnC(ActionEvent event)
-    {
-        String s = txtAction.getText();
-        mrm.createMovie(s);
-        txtAction.setText("");
-        
-    }
 
     @FXML
-    private void btnU(ActionEvent event)
+    private void BtnCRUD(ActionEvent event) throws IOException
     {
-        String s = txtAction.getText();
-        mrm.updateMovie(s);
-        txtAction.setText("");
-    }
-
-    @FXML
-    private void btnD(ActionEvent event)
-    {
-        String s = txtAction.getText();
-        mrm.deleteMovie(s);
-        txtAction.setText("");
+        Stage stage = (Stage) borderPane.getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/movierecsys/gui/view/CRUDView.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
     }
 
 }

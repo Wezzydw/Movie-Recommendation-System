@@ -22,7 +22,6 @@ import movierecsys.be.User;
 
 public class FileReaderTester {
 
-    UandP up = new UandP();
 
 
     /**
@@ -248,8 +247,8 @@ public class FileReaderTester {
         SQLServerDataSource ds = new SQLServerDataSource();
         ds.setServerName("10.176.111.31");
         ds.setDatabaseName("MRSDATABASE");
-        ds.setUser(up.getUser());
-        ds.setPassword(up.getPw());
+        ds.setUser("");
+        ds.setPassword("");
 
         MovieDAO mvDAO = new MovieDAO();
         List<Movie> movies = mvDAO.getAllMovies();
@@ -283,8 +282,8 @@ public class FileReaderTester {
         SQLServerDataSource ds = new SQLServerDataSource();
         ds.setServerName("10.176.111.31");
         ds.setDatabaseName("MRSDATABASE");
-        ds.setUser(up.getUser());
-        ds.setPassword(up.getPw());
+        ds.setUser("");
+        ds.setPassword("");
 
         RatingDAO rDAO = new RatingDAO();
         List<Rating> ratings = rDAO.getAllRatings();
@@ -318,8 +317,8 @@ public class FileReaderTester {
         SQLServerDataSource ds = new SQLServerDataSource();
         ds.setServerName("10.176.111.31");
         ds.setDatabaseName("MRSDATABASE");
-        ds.setUser(up.getUser());
-        ds.setPassword(up.getPw());
+        ds.setUser("");
+        ds.setPassword("");
 
         UserDAO uDAO = new UserDAO();
         List<User> users = uDAO.getAllUsers();

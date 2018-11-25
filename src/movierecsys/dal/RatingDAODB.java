@@ -23,21 +23,15 @@ import movierecsys.be.User;
  */
 public class RatingDAODB implements IRatingRepository
 {
-    
-    UandP up = new UandP();
-    
+
+    DbConnectionProvider dcp = new DbConnectionProvider();
     
     @Override
     public void createRating(Rating rating) throws IOException
     {
         int unUsedId = 0;
-        SQLServerDataSource ds = new SQLServerDataSource();
-        ds.setServerName("10.176.111.31");
-        ds.setDatabaseName("MRSDATABASE");
-        ds.setUser(up.getUser());
-        ds.setPassword(up.getPw());
 
-        try (Connection con = ds.getConnection())
+        try (Connection con = dcp.getConnection())
         {
             Statement statement = con.createStatement();
             int i = 0;
@@ -65,13 +59,8 @@ public class RatingDAODB implements IRatingRepository
     @Override
     public void deleteRating(Rating rating) throws IOException
     {
-        SQLServerDataSource ds = new SQLServerDataSource();
-        ds.setServerName("10.176.111.31");
-        ds.setDatabaseName("MRSDATABASE");
-        ds.setUser(up.getUser());
-        ds.setPassword(up.getPw());
 
-        try (Connection con = ds.getConnection())
+        try (Connection con = dcp.getConnection())
         {
             Statement statement = con.createStatement();
             String sql = "DELETE FROM Rating WHERE movieId =" 
@@ -88,14 +77,9 @@ public class RatingDAODB implements IRatingRepository
     @Override
     public List<Rating> getAllRatings() throws IOException
     {
-        SQLServerDataSource ds = new SQLServerDataSource();
-        ds.setServerName("10.176.111.31");
-        ds.setDatabaseName("MRSDATABASE");
-        ds.setUser(up.getUser());
-        ds.setPassword(up.getPw());
 
         List<Rating> ratings = new ArrayList();
-        try (Connection con = ds.getConnection())
+        try (Connection con = dcp.getConnection())
         {
             Statement statement = con.createStatement();
             String sql = "SELECT * FROM Rating;";
@@ -117,15 +101,11 @@ public class RatingDAODB implements IRatingRepository
     @Override
     public List<Rating> getRatings(User user) throws IOException
     {
-        SQLServerDataSource ds = new SQLServerDataSource();
-        ds.setServerName("10.176.111.31");
-        ds.setDatabaseName("MRSDATABASE");
-        ds.setUser(up.getUser());
-        ds.setPassword(up.getPw());
+
         
         
         List<Rating> Ratings = new ArrayList();
-        try (Connection con = ds.getConnection())
+        try (Connection con = dcp.getConnection())
         {
             Statement statement = con.createStatement();
            
@@ -150,13 +130,9 @@ public class RatingDAODB implements IRatingRepository
     @Override
     public void updateRating(Rating rating) throws IOException
     {
-        SQLServerDataSource ds = new SQLServerDataSource();
-        ds.setServerName("10.176.111.31");
-        ds.setDatabaseName("MRSDATABASE");
-        ds.setUser(up.getUser());
-        ds.setPassword(up.getPw());
 
-        try (Connection con = ds.getConnection())
+
+        try (Connection con = dcp.getConnection())
         {
             Statement statement = con.createStatement();
            

@@ -22,20 +22,13 @@ import movierecsys.be.Movie;
 public class MovieDAODB implements IMovieRepository
 {
 
-    UandP up = new UandP();
+    DbConnectionProvider dcp = new DbConnectionProvider();
 
     @Override
     public Movie createMovie(int releaseYear, String title) throws IOException
     {
-
         int unUsedId = 0;
-        SQLServerDataSource ds = new SQLServerDataSource();
-        ds.setServerName("10.176.111.31");
-        ds.setDatabaseName("MRSDATABASE");
-        ds.setUser(up.getUser());
-        ds.setPassword(up.getPw());
-
-        try (Connection con = ds.getConnection())
+        try (Connection con = dcp.getConnection())
         {
             Statement statement = con.createStatement();
             int i = 0;
@@ -64,13 +57,9 @@ public class MovieDAODB implements IMovieRepository
     @Override
     public void deleteMovie(Movie movie) throws IOException
     {
-        SQLServerDataSource ds = new SQLServerDataSource();
-        ds.setServerName("10.176.111.31");
-        ds.setDatabaseName("MRSDATABASE");
-        ds.setUser(up.getUser());
-        ds.setPassword(up.getPw());
+       
 
-        try (Connection con = ds.getConnection())
+        try (Connection con = dcp.getConnection())
         {
             Statement statement = con.createStatement();
             String sql = "DELETE FROM Movie WHERE id = " + movie.getId() + ";";
@@ -86,14 +75,9 @@ public class MovieDAODB implements IMovieRepository
     public List<Movie> getAllMovies() throws IOException
     {
 
-        SQLServerDataSource ds = new SQLServerDataSource();
-        ds.setServerName("10.176.111.31");
-        ds.setDatabaseName("MRSDATABASE");
-        ds.setUser(up.getUser());
-        ds.setPassword(up.getPw());
 
         List<Movie> movies = new ArrayList();
-        try (Connection con = ds.getConnection())
+        try (Connection con = dcp.getConnection())
         {
             Statement statement = con.createStatement();
             String sql = "SELECT * FROM MOVIE;";
@@ -116,13 +100,8 @@ public class MovieDAODB implements IMovieRepository
     public Movie getMovie(int id) throws IOException
     {
         Movie m = null;
-        SQLServerDataSource ds = new SQLServerDataSource();
-        ds.setServerName("10.176.111.31");
-        ds.setDatabaseName("MRSDATABASE");
-        ds.setUser(up.getUser());
-        ds.setPassword(up.getPw());
 
-        try (Connection con = ds.getConnection())
+        try (Connection con = dcp.getConnection())
         {
             Statement statement = con.createStatement();
            
@@ -141,13 +120,9 @@ public class MovieDAODB implements IMovieRepository
     @Override
     public void updateMovie(Movie movie) throws IOException
     {
-        SQLServerDataSource ds = new SQLServerDataSource();
-        ds.setServerName("10.176.111.31");
-        ds.setDatabaseName("MRSDATABASE");
-        ds.setUser(up.getUser());
-        ds.setPassword(up.getPw());
 
-        try (Connection con = ds.getConnection())
+
+        try (Connection con = dcp.getConnection())
         {
             Statement statement = con.createStatement();
            

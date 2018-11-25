@@ -21,20 +21,14 @@ import movierecsys.be.User;
  */
 public class UserDAODB implements IUserRepository
 {
-    UandP up = new UandP();
-    
+    DbConnectionProvider dcp = new DbConnectionProvider();
     
     @Override
     public List<User> getAllUsers() throws IOException
     {
-        SQLServerDataSource ds = new SQLServerDataSource();
-        ds.setServerName("10.176.111.31");
-        ds.setDatabaseName("MRSDATABASE");
-        ds.setUser(up.getUser());
-        ds.setPassword(up.getPw());
 
         List<User> users = new ArrayList();
-        try (Connection con = ds.getConnection())
+        try (Connection con = dcp.getConnection())
         {
             Statement statement = con.createStatement();
             String sql = "SELECT * FROM User;";
@@ -57,13 +51,9 @@ public class UserDAODB implements IUserRepository
     public User getUser(int id) throws IOException
     {
         User u = null;
-        SQLServerDataSource ds = new SQLServerDataSource();
-        ds.setServerName("10.176.111.31");
-        ds.setDatabaseName("MRSDATABASE");
-        ds.setUser(up.getUser());
-        ds.setPassword(up.getPw());
 
-        try (Connection con = ds.getConnection())
+
+        try (Connection con = dcp.getConnection())
         {
             Statement statement = con.createStatement();
            
@@ -82,13 +72,8 @@ public class UserDAODB implements IUserRepository
     @Override
     public void updateUser(User user) throws IOException
     {
-        SQLServerDataSource ds = new SQLServerDataSource();
-        ds.setServerName("10.176.111.31");
-        ds.setDatabaseName("MRSDATABASE");
-        ds.setUser(up.getUser());
-        ds.setPassword(up.getPw());
 
-        try (Connection con = ds.getConnection())
+        try (Connection con = dcp.getConnection())
         {
             Statement statement = con.createStatement();
            
