@@ -24,14 +24,14 @@ public class MovieRecModel
     ObservableList<Movie> mvAll;
     ObservableList<Movie> mv;
     ObservableList<Movie> all;
-    List<Movie> test;
+    List<Movie> emptyForInit;
     MRSManager mrsm = new MRSManager();
     
     public MovieRecModel() throws IOException
     {
         ms = new MovieSearcher();
-        mv = FXCollections.observableArrayList(ms.search(test, ""));
-        all = FXCollections.observableArrayList(ms.search(test, ""));
+        mv = FXCollections.observableArrayList(ms.search(emptyForInit, ""));
+        all = FXCollections.observableArrayList(ms.search(emptyForInit, ""));
     }
     
     public ObservableList<Movie> getOBList() throws IOException
